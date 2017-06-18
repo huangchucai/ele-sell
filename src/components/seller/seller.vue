@@ -83,7 +83,7 @@
     },
     ready() {
       this._initScroll();
-      this._initPics()
+      this._initPics();
     },
     methods: {
       _initScroll() {
@@ -110,7 +110,7 @@
             } else {
               this.picScroll.refresh();
             }
-          })
+          });
         }
       }
     },
