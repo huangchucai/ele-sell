@@ -71,7 +71,7 @@
 </template>
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll';
-  //  import {saveToLocal, loadFromLocal} from 'common/js/store';
+  import {saveToLocal, loadFromLocal} from 'common/js/store';
   import star from 'components/star/star';
   import split from 'components/split/split';
 
@@ -83,12 +83,14 @@
     },
     data() {
       return {
-        favorite: false
+        favorite: (() => {
+          return loadFromLocal(this.seller.id, 'favorite', false);
+        })()
       };
     },
     computed: {
       favoriteText() {
-        return this.favorite ? '已收藏' : '未收藏';
+        return this.favorite ? '已收藏' : '收藏';
       }
     },
     created() {
@@ -132,8 +134,12 @@
           });
         }
       },
-      toggleFavorite() {
+      toggleFavorite(event) {
+        if (!event._constructed) {
+          return;
+        }
         this.favorite = !this.favorite;
+        saveToLocal(this.seller.id, 'favorite', this.favorite);
       }
     },
     components: {
@@ -276,19 +282,19 @@
             height 90px
             &:last-child
               margin 0
-    .info  
-      padding 18px 18px 0 18px 
-      color rgb(7,17,27)
-      .title 
-        padding-bottom 12px 
-        line-height 14px 
-        border-1px(rgba(7,17,27,0.1))
-        font-size 14px 
+    .info
+      padding 18px 18px 0 18px
+      color rgb(7, 17, 27)
+      .title
+        padding-bottom 12px
+        line-height 14px
+        border-1px(rgba(7, 17, 27, 0.1))
+        font-size 14px
       .info-item
         padding: 16px 12px
         line-height: 16px
         border-1px(rgba(7, 17, 27, 0.1))
         font-size: 12px
         &:last-child
-          border-none()      
+          border-none()
 </style>
